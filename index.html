@@ -306,6 +306,7 @@
         <div class="box">
             <div id="loading-bar-fill" class="loading-box"></div>
         </div>
+        <br>
         <div class="heart" id="heart"></div>
     </div>
 
@@ -314,10 +315,14 @@
         <button id="auth-no">No</button>
     </div>
 
+    <div id="cuenta"></div>
+    <br>
     <div id="quiz-container" style="width:100%;display:flex;flex-direction:column;gap:8px;min-height:635px;display:none;">
         <iframe src="https://quizizz.com/embed/presentation/66ab2ff43b9a0501634cb6a0" title="Lección sin título - Quizizz" style="flex:1;" frameBorder="0" allowfullscreen></iframe>
         <a href="https://quizizz.com/admin?source=embedFrame" target="_blank">Explore more at Quizizz.</a>
     </div>
+
+    
 
     <script>
         const greeting = document.getElementById('greeting');
@@ -347,7 +352,7 @@
                     loadingText.style.animation = 'fadeInContent 2s forwards';
                     loadingText.innerText = 'Inspeccionando...';
                     setTimeout(() => {
-                        loadingText.innerText = 'Revisando...';
+                        loadingText.innerText = 'Creyendo tus mentiras...';
                         loadingBarFill.parentElement.style.opacity = '1';
                         loadingBarFill.parentElement.style.animation = 'fadeInContent 2s forwards';
                         heart.style.opacity = '1';
@@ -355,7 +360,7 @@
                         setTimeout(() => {
                             alert('ERROR, falta autenticar.');
                             loadingContainer.style.opacity = '0';
-                            question.innerText = '¿Apruebas la autenticación?';
+                            question.innerText = '¿Estás de acuerdo con el cuestionario?';
                             question.style.animation = 'fadeInText 2s forwards';
                             question.style.display = 'block';
                             authButtons.style.display = 'block';
@@ -389,7 +394,7 @@
         });
 
         vutonNo.addEventListener('click', () => {
-            location.href = 'https://www.youtube.com/watch?v=5z-lcBJK-FE&ab_channel=SunsetSounds';
+            location.href = 'https://www.youtube.com/watch?v=A56CQc4-HDo';
         });
 
         authYes.addEventListener('click', () => {
@@ -416,6 +421,30 @@
                 initialButtons.style.animation = 'fadeInButtons 2s forwards';
             }, 2000);
         }, 2000);
+
+        // Contador
+        function startCountdown(duration, display) {
+            let timer = duration, minutes, seconds;
+            setInterval(function () {
+                minutes = parseInt(timer / 60, 10);
+                seconds = parseInt(timer % 60, 10);
+
+                minutes = minutes < 10 ? "0" + minutes : minutes;
+                seconds = seconds < 10 ? "0" + seconds : seconds;
+
+                display.textContent = minutes + ":" + seconds;
+
+                if (--timer < 0) {
+                    window.location.href = 'https://www.youtube.com/watch?v=5z-lcBJK-FE&ab_channel=SunsetSounds';
+                }
+            }, 1000);
+        }
+
+        window.onload = function () {
+            let fiveMinutes = 60 * 5,
+                display = document.querySelector('#cuenta');
+            startCountdown(fiveMinutes, display);
+        };
     </script>
 </body>
 
