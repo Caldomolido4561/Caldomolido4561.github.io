@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>¿Eres Greysi?</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&display=swap');
+
+        body {
+            padding: 0;
+            background-color: #080344;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            flex-direction: column;
+            margin: 0;
+            box-sizing: border-box;
+        }
+
+        .bubbles-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            z-index: -1;
+        }
+
+        .bubbles {
+            position: absolute;
+            bottom: -100px;
+            display: flex;
+            width: 100%;
+            height: 100%;
+            justify-content: space-between;
+            pointer-events: none;
+        }
+
+        .bubbles span {
+            position: relative;
+            width: 30px;
+            height: 30px;
+            background: #4fc3dc;
+            border-radius: 50%;
+            box-shadow: 0 0 0 10px #4fc3dc44, 0 0 50px #4fc3dc44, 0 0 100px #4fc3dc44;
+            animation: animate 15s linear infinite;
+            animation-duration: calc(125s / var(--i));
+        }
+
+        .bubbles span:nth-child(even) {
+            background: #ff2d75;
+            box-shadow: 0 0 0 10px #ff2d7544, 0 0 50px #ff2d75, 0 0 100px #ff2d75;
+        }
+
+        @keyframes animate {
+            0% {
+                transform: translateY(100vh) scale(1);
+            }
+
+            100% {
+                transform: translateY(-100vh) scale(0.5);
+            }
+        }
+
+        h1 {
+            font-size: 8em;
+            color: #fff;
+            opacity: 0;
+            font-family: 'Dancing Script', cursive;
+            animation: fadeIn 2s forwards;
+        }
+
+        @keyframes fadeIn {
+            0% {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            100% {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeOut {
+            0% {
+                opacity: 1;
+            }
+
+            100% {
+                opacity: 0;
+            }
+        }
+
+        .textbox {
+            font-size: 2.5em;
+            color: #fff;
+            margin-top: 20px;
+            padding: 10px;
+            border: 2px solid #fff;
+            border-radius: 5px;
+            background-color: transparent;
+            display: none;
+            opacity: 0;
+            animation: fadeInText 2s forwards;
+        }
+
+        @keyframes fadeInText {
+            to {
+                display: block;
+                opacity: 1;
+            }
+        }
+
+        .buttons {
+            margin-top: 40px;
+            display: none;
+            opacity: 0;
+            animation: fadeInButtons 2s forwards;
+            animation-delay: 4s;
+        }
+
+        .buttons button {
+            background-color: transparent;
+            border: 2px solid #fff;
+            border-radius: 5px;
+            padding: 20px 40px;
+            margin: 0 20px;
+            font-size: 1.5em;
+            cursor: pointer;
+            color: #fff;
+        }
+
+        .buttons button:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+
+        @keyframes fadeInButtons {
+            to {
+                display: block;
+                opacity: 1;
+            }
+        }
+
+        .loading-container {
+            text-align: center;
+            margin-top: 40px;
+            color: #fff;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+        }
+
+        .box {
+            display: inline-block;
+            border: solid black 4px;
+            width: 160px;
+            background-color: white;
+            margin-top: 20px;
+        }
+
+        .loading-box {
+            height: 23px;
+            width: 0;
+            background-color: blueviolet;
+            animation: loading 6s forwards;
+        }
+
+        @keyframes loading {
+            0% {
+                width: 0;
+            }
+
+            33% {
+                background-color: blueviolet;
+                width: 160px;
+            }
+
+            66% {
+                background-color: yellow;
+                width: 160px;
+            }
+
+            100% {
+                width: 160px;
+                background-color: red;
+            }
+        }
+
+        .heart {
+            width: 70px;
+            height: 70px;
+            background: #ff4757;
+            transform: rotate(-45deg);
+            box-shadow: -10px 10px 90px #ff4757;
+            animation: heartbeat 0.6s linear infinite;
+            margin-top: 20px;
+            cursor: pointer;
+        }
+
+        .heart::before,
+        .heart::after {
+            content: '';
+            position: absolute;
+            width: 70px;
+            height: 70px;
+            background: #ff4757;
+            border-radius: 50%;
+        }
+
+        .heart::before {
+            top: -50%;
+            left: 0;
+        }
+
+        .heart::after {
+            top: 0;
+            right: -50%;
+        }
+
+        @keyframes heartbeat {
+            0% {
+                transform: rotate(-45deg) scale(1.07);
+            }
+
+            80% {
+                transform: rotate(-45deg) scale(1.0);
+            }
+
+            100% {
+                transform: rotate(-45deg) scale(0.8);
+            }
+        }
+
+        .fade-in-image {
+            opacity: 0;
+            animation: fadeInImage 3s forwards;
+            margin-top: 20px;
+            width: 200px;
+            height: auto;
+        }
+
+        @keyframes fadeInImage {
+            to {
+                opacity: 1;
+            }
+        }
+
+        @keyframes fadeInContent {
+            0% {
+                opacity: 0;
+            }
+
+            100% {
+                opacity: 1;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <audio id="song" src="Undertale.mp3" type="audio/mpeg" autoplay></audio>
+    <audio id="collect-sound" src="COLLECT.mp3" type="audio/mpeg"></audio>
+    <div class="bubbles-container">
+        <div class="bubbles">
+            <span style="--i:11;"></span>
+            <span style="--i:12;"></span>
+            <span style="--i:24;"></span>
+            <span style="--i:10;"></span>
+            <span style="--i:23;"></span>
+            <span style="--i:18;"></span>
+            <span style="--i:16;"></span>
+            <span style="--i:19;"></span>
+            <span style="--i:20;"></span>
+            <span style="--i:22;"></span>
+            <span style="--i:25;"></span>
+            <span style="--i:18;"></span>
+            <span style="--i:21;"></span>
+            <span style="--i:15;"></span>
+            <span style="--i:13;"></span>
+            <span style="--i:25;"></span>
+            <span style="--i:26;"></span>
+            <span style="--i:17;"></span>
+            <span style="--i:13;"></span>
+            <span style="--i:28;"></span>
+        </div>
+    </div>
+    <h1 id="greeting">Hola</h1>
+    <div class="textbox" id="question">¿Eres Greysi?</div>
+    <div class="buttons" id="initial-buttons">
+        <button id="yes">Sí</button>
+        <button id="no">No</button>
+    </div>
+
+    <div class="loading-container" id="loading-container">
+        <img src="https://media.tenor.com/ovWTVvG3VBwAAAAM/mr-fresh-mr-fresh-multiverse.gif" alt="Loading GIF" class="fade-in-image">
+        <div style="height: 20px;"></div>
+        <p id="loading-text">Analizando...</p>
+        <div class="box">
+            <div id="loading-bar-fill" class="loading-box"></div>
+        </div>
+        <div class="heart" id="heart"></div>
+    </div>
+
+    <div class="buttons" id="auth-buttons" style="display: none;">
+        <button id="auth-yes">Sí</button>
+        <button id="auth-no">No</button>
+    </div>
+
+    <div id="quiz-container" style="width:100%;display:flex;flex-direction:column;gap:8px;min-height:635px;display:none;">
+        <iframe src="https://quizizz.com/embed/presentation/66ab2ff43b9a0501634cb6a0" title="Lección sin título - Quizizz" style="flex:1;" frameBorder="0" allowfullscreen></iframe>
+        <a href="https://quizizz.com/admin?source=embedFrame" target="_blank">Explore more at Quizizz.</a>
+    </div>
+
+    <script>
+        const greeting = document.getElementById('greeting');
+        const question = document.getElementById('question');
+        const initialButtons = document.getElementById('initial-buttons');
+        const vutonSi = document.getElementById('yes');
+        const vutonNo = document.getElementById('no');
+        const loadingContainer = document.getElementById('loading-container');
+        const loadingText = document.getElementById('loading-text');
+        const loadingBarFill = document.getElementById('loading-bar-fill');
+        const heart = document.getElementById('heart');
+        const collectSound = document.getElementById('collect-sound');
+        const authButtons = document.getElementById('auth-buttons');
+        const authYes = document.getElementById('auth-yes');
+        const authNo = document.getElementById('auth-no');
+        const quizContainer = document.getElementById('quiz-container');
+
+        const zomosNobios = () => {
+            initialButtons.style.animation = 'fadeOut 2s forwards';
+            question.style.animation = 'fadeOut 2s forwards';
+            setTimeout(() => {
+                initialButtons.style.display = 'none';
+                question.style.display = 'none';
+                loadingContainer.style.opacity = '1';
+                setTimeout(() => {
+                    loadingText.style.opacity = '1';
+                    loadingText.style.animation = 'fadeInContent 2s forwards';
+                    loadingText.innerText = 'Inspeccionando...';
+                    setTimeout(() => {
+                        loadingText.innerText = 'Revisando...';
+                        loadingBarFill.parentElement.style.opacity = '1';
+                        loadingBarFill.parentElement.style.animation = 'fadeInContent 2s forwards';
+                        heart.style.opacity = '1';
+                        heart.style.animation = 'fadeInContent 2s forwards';
+                        setTimeout(() => {
+                            alert('ERROR, falta autenticar.');
+                            loadingContainer.style.opacity = '0';
+                            question.innerText = '¿Apruebas la autenticación?';
+                            question.style.animation = 'fadeInText 2s forwards';
+                            question.style.display = 'block';
+                            authButtons.style.display = 'block';
+                            authButtons.style.animation = 'fadeInButtons 2s forwards';
+                        }, 2000);
+                    }, 2000);
+                }, 2000);
+            }, 2000);
+        };
+
+        const ebitarKCRompaMyBobo = () => {
+            vutonNo.style.position = 'absolute';
+            vutonNo.style.top = (Math.random() * window.innerHeight) + 'px';
+            vutonNo.style.left = (Math.random() * window.innerWidth) + 'px';
+        };
+
+        heart.addEventListener('click', () => {
+            collectSound.currentTime = 0;
+            collectSound.play();
+        });
+
+        vutonSi.addEventListener('click', () => {
+            greeting.style.animation = 'fadeOut 2s forwards';
+            initialButtons.style.animation = 'fadeOut 2s forwards';
+            setTimeout(() => {
+                zomosNobios();
+                const loadingImage = document.querySelector('.fade-in-image');
+                loadingImage.style.opacity = '1';
+                loadingImage.style.animation = 'fadeInImage 3s forwards';
+            }, 2000);
+        });
+
+        vutonNo.addEventListener('click', () => {
+            location.href = 'https://www.youtube.com/watch?v=5z-lcBJK-FE&ab_channel=SunsetSounds';
+        });
+
+        authYes.addEventListener('click', () => {
+            authButtons.style.display = 'none';
+            question.style.display = 'none';
+            quizContainer.style.display = 'flex';
+        });
+
+        authNo.addEventListener('mouseover', () => {
+            authNo.style.position = 'absolute';
+            authNo.style.top = (Math.random() * window.innerHeight) + 'px';
+            authNo.style.left = (Math.random() * window.innerWidth) + 'px';
+        });
+
+        setTimeout(() => {
+            greeting.style.animation = 'fadeOut 2s forwards';
+            setTimeout(() => {
+                greeting.innerText = '¿Eres Greysi?';
+                greeting.style.animation = 'none';
+                greeting.style.opacity = '1';
+                greeting.style.animation = 'fadeIn 2s forwards';
+                question.style.animation = 'fadeInText 2s forwards';
+                initialButtons.style.display = 'block';
+                initialButtons.style.animation = 'fadeInButtons 2s forwards';
+            }, 2000);
+        }, 2000);
+    </script>
+</body>
+
+</html>
