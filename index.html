@@ -1,451 +1,621 @@
 <!DOCTYPE html>
-<html lang="en">
-
+<html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>¿Eres Greysi?</title>
+    <title>hola q tal como estas yo bien ytu</title>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&display=swap');
-
+        /* Fondo y estilos generales */
         body {
-            padding: 0;
-            background-color: #080344;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            flex-direction: column;
             margin: 0;
-            box-sizing: border-box;
-        }
-
-        .bubbles-container {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
+            height: 100vh;
+            background-color: #2a3a55;
             overflow: hidden;
-            z-index: -1;
-        }
-
-        .bubbles {
-            position: absolute;
-            bottom: -100px;
-            display: flex;
-            width: 100%;
-            height: 100%;
-            justify-content: space-between;
-            pointer-events: none;
-        }
-
-        .bubbles span {
             position: relative;
-            width: 30px;
-            height: 30px;
-            background: #4fc3dc;
+        }
+
+        /* Pasto en la parte inferior */
+        .grass {
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+            height: 170px;
+            background-color: #3b523927;
+            z-index: 12; /* Asegura que el pasto esté siempre encima */
+            user-select: none;
+        }
+
+        .grass1 {
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+            height: 180px;
+            background-color: #2e4d2d;
+            z-index: 2; /* Asegura que el pasto esté siempre encima */
+            user-select: none;
+        }
+
+        .grass img {
+            position: sticky;
+            height: 100px; /* Ajusta el tamaño de las imágenes */
+            filter: brightness(0.5); /* 0.5 hace la imagen más oscura */
+            z-index: 16; /* Asegura que las imágenes estén sobre el pasto */
+            user-select: none;
+        }
+
+        @keyframes fall {
+          0% {
+            transform: translateY(0); /* Empieza en su posición original */
+            opacity: 1;                /* Totalmente visible al principio */
+          }
+          100% {
+            transform: translateY(100vh); /* Se mueve hasta el fondo de la pantalla */
+            opacity: 0;                  /* Desaparece mientras cae */
+          }
+        }
+        
+        .confetti {
+          position: absolute;
+          width: 5px;
+          height: 20px;
+          background: orange;
+          opacity: 0;
+          transform-origin: center;
+          animation: fall 2s ease-in forwards; /* Aplica la animación 'fall' */
+        }
+        .luna {
+            display: inline-block;
+            position: absolute;
+            padding: 0px;
+            left: 10px;
+            top: 10px;
+            background-color: transparent;
+            box-shadow: 0 0 50px 30px rgba(255, 255, 255, 0.7); /* La sombra que simula la luz difusa */
+            border-radius: 50%; /* Si quieres que la luz sea redonda */
+            overflow: hidden;
+            user-select: none;
+          }
+      
+          .luna img {
+            display: block;
+            width: 300px;
+            height: auto;
+            border-radius: 50%; /* Si quieres que la imagen sea redonda */
+            user-select: none;
+          }
+
+        /* Estrellas parpadeantes */
+        .star {
+            position: absolute;
+            width: 2px;
+            height: 2px;
+            background-color: white;
             border-radius: 50%;
-            box-shadow: 0 0 0 10px #4fc3dc44, 0 0 50px #4fc3dc44, 0 0 100px #4fc3dc44;
-            animation: animate 15s linear infinite;
-            animation-duration: calc(125s / var(--i));
+            animation: twinkle 1.5s infinite;
         }
 
-        .bubbles span:nth-child(even) {
-            background: #ff2d75;
-            box-shadow: 0 0 0 10px #ff2d7544, 0 0 50px #ff2d75, 0 0 100px #ff2d75;
-        }
-
-        @keyframes animate {
+        @keyframes twinkle {
             0% {
-                transform: translateY(100vh) scale(1);
+                opacity: 0.3;
             }
-
+            50% {
+                opacity: 1;
+            }
             100% {
-                transform: translateY(-100vh) scale(0.5);
+                opacity: 0.3;
             }
         }
 
-        h1 {
-            font-size: 8em;
-            color: #fff;
-            opacity: 0;
-            font-family: 'Dancing Script', cursive;
-            animation: fadeIn 2s forwards;
+        /* Luces flotantes */
+        .light {
+            position: absolute;
+            width: 90px;
+            height: 90px;
+            border-radius: 50%;
+            opacity: 0.1;
+            animation: moveLights 10s infinite, fadeInOut 5s infinite;
         }
 
+        @keyframes moveLights {
+            0% {
+                opacity: 0.2;
+            }
+            50% {
+                opacity: 0.1;
+            }
+            100% {
+                opacity: 0.2;
+            }
+        }
+
+        @keyframes fadeInOut {
+            0% {
+                opacity: 0.2;
+            }
+            50% {
+                opacity: 0.1;
+            }
+            100% {
+                opacity: 0.2;
+            }
+        }
+
+        /* Luces de diferentes colores */
+        .light-purple {
+            background-color: rgba(0, 255, 255, 0.2);
+        }
+
+        .light-yellow {
+            background-color: rgba(138, 43, 226, 0.3);
+        }
+
+        .light-celeste {
+            background-color: #3498db;
+        }
+
+        /* Animación fadeIn y fadeOut */
         @keyframes fadeIn {
             0% {
                 opacity: 0;
-                transform: translateY(20px);
             }
-
             100% {
-                opacity: 1;
-                transform: translateY(0);
+                opacity: 0.2;
             }
         }
 
         @keyframes fadeOut {
             0% {
-                opacity: 1;
+                opacity: 0.2;
             }
-
             100% {
                 opacity: 0;
             }
         }
 
-        .textbox {
-            font-size: 2.5em;
-            color: #fff;
-            margin-top: 20px;
-            padding: 10px;
-            border: 2px solid #fff;
-            border-radius: 5px;
-            background-color: transparent;
-            display: none;
-            opacity: 0;
-            animation: fadeInText 2s forwards;
-        }
-
-        @keyframes fadeInText {
-            to {
-                display: block;
-                opacity: 1;
-            }
-        }
-
-        .buttons {
-            margin-top: 40px;
-            display: none;
-            opacity: 0;
-            animation: fadeInButtons 2s forwards;
-            animation-delay: 4s;
-        }
-
-        .buttons button {
-            background-color: transparent;
-            border: 2px solid #fff;
-            border-radius: 5px;
-            padding: 20px 40px;
-            margin: 0 20px;
-            font-size: 1.5em;
-            cursor: pointer;
-            color: #fff;
-        }
-
-        .buttons button:hover {
-            background-color: rgba(255, 255, 255, 0.1);
-        }
-
-        @keyframes fadeInButtons {
-            to {
-                display: block;
-                opacity: 1;
-            }
-        }
-
-        .loading-container {
-            text-align: center;
-            margin-top: 40px;
-            color: #fff;
-            position: relative;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            opacity: 0;
-        }
-
-        .box {
-            display: inline-block;
-            border: solid black 4px;
-            width: 160px;
-            background-color: white;
-            margin-top: 20px;
-        }
-
-        .loading-box {
-            height: 23px;
-            width: 0;
-            background-color: blueviolet;
-            animation: loading 6s forwards;
-        }
-
-        @keyframes loading {
-            0% {
-                width: 0;
-            }
-
-            33% {
-                background-color: blueviolet;
-                width: 160px;
-            }
-
-            66% {
-                background-color: yellow;
-                width: 160px;
-            }
-
-            100% {
-                width: 160px;
-                background-color: red;
-            }
-        }
-
-        .heart {
-            width: 70px;
-            height: 70px;
-            background: #ff4757;
-            transform: rotate(-45deg);
-            box-shadow: -10px 10px 90px #ff4757;
-            animation: heartbeat 0.6s linear infinite;
-            margin-top: 20px;
-            cursor: pointer;
-        }
-
-        .heart::before,
-        .heart::after {
-            content: '';
+        .luz {
             position: absolute;
-            width: 70px;
-            height: 70px;
-            background: #ff4757;
-            border-radius: 50%;
-        }
-
-        .heart::before {
-            top: -50%;
+            bottom: 0;
+            width: 100%;
+            height: 350px;
+            padding-bottom: 10px; /* Espacio para la línea */
+          }
+          
+          .borde-degradado {
+            position: absolute;
+            bottom: 100px;
             left: 0;
-        }
+            width: 100%;
+            height: 250px; /* Grosor de la línea */
+            background: linear-gradient(to top, #553715, #2a3a55);
+          }
 
-        .heart::after {
-            top: 0;
-            right: -50%;
-        }
+          /* Imagen de la pareja en la parte inferior derecha */
+    .couple-image {
+        position: absolute;
+        bottom: 70px;
+        right: 10px;
+        width: 500px;
+        height: auto;
+        z-index: 11; /* Imagen de la pareja sobre todo */
+        user-select: none;
+      }
 
-        @keyframes heartbeat {
-            0% {
-                transform: rotate(-45deg) scale(1.07);
-            }
+      /* Estilo para el corazón usando SVG */
+      #heart {
+        position: absolute;
+        top: 100px;
+        left: 90px;
+        cursor: pointer; /* Cambia el cursor al pasar sobre el corazón */
+        transition: transform 0.1s ease-in-out; /* Transición para la animación de clic */
+        z-index: 30;
+        user-select: none;
+      }
 
-            80% {
-                transform: rotate(-45deg) scale(1.0);
-            }
+      /* Clase para aplicar la animación de "apretón" en el corazón */
+      .heart-clicked {
+        transform: scale(0.9); /* Reduce el tamaño del corazón al hacer clic */
+      }
+      
 
-            100% {
-                transform: rotate(-45deg) scale(0.8);
-            }
-        }
+ /* Animación para que el contenedor se eleve y se desvanezca */
+ @keyframes elevateAndFade {
+    0% {
+      bottom: 20px;       /* Posición inicial desde abajo */
+      opacity: 1;         /* Completamente opaco */
+    }
+    100% {
+      bottom: 100vh;      /* Se eleva hasta salir de la pantalla */
+      opacity: 0.3;         /* Se vuelve transparente */
+    }
+  }
 
-        .fade-in-image {
-            opacity: 0;
-            animation: fadeInImage 3s forwards;
-            margin-top: 20px;
-            width: 200px;
-            height: auto;
-        }
+  /* Animación pulsante para el círculo de fondo */
+  @keyframes pulse {
+    0% {
+      transform: scale(1);   /* Tamaño original */
+    }
+    100% {
+      transform: scale(1.6); /* Se agranda un poco */
+    }
+  }
+  @keyframes fastfadeout {
+    0% {
+      opacity: 1;
+    }
+    100% {
+      opacity: 0;
+    }
+  }
 
-        @keyframes fadeInImage {
-            to {
-                opacity: 1;
-            }
-        }
+  .bg-circle {
+    color:rgba(241, 183, 21, 0.308);
+    opacity: 1;
+    animation: pulse 2s infinite alternate;
+  }
 
-        @keyframes fadeInContent {
-            0% {
-                opacity: 0;
-            }
+  .confetti {
+    position: absolute;
+    width: 5px;
+    height: 20px;
+    background: orange;
+    opacity: 0;
+    transform-origin: center;
+  }
 
-            100% {
-                opacity: 1;
-            }
-        }
+  @keyframes explode {
+    0% { transform: translate(0, 0) rotate(var(--rotation)) scale(1); opacity: 1; }
+    50% { opacity: 1; }
+    100% { transform: translate(var(--x), var(--y)) rotate(var(--rotation)) scale(0.5); opacity: 0; }
+  }
+
+  .contenedor {
+    position: absolute;
+    padding: 30px;
+    bottom: 40px;
+        left: 10px;
+        height: auto;
+        z-index: 60; /* Imagen de la pareja sobre todo */
+  }
+
+  button {
+    padding: 10px 20px;
+    font-size: 18px;
+    margin: 10px;
+    z-index: 60;
+    color: #bbc2bbbe;
+    background-color: #1157207a; /* color azul */
+  }
+
+  #contador {
+    font-size: 24px;
+    margin-top: 10px;
+    font-family: 'Courier New', Courier, monospace; /* Cambia tipo de letra */
+    color: #dfdede8f;
+  }
+  .texto-personalizado {
+    font-size: 28px;
+    font-weight: bold;
+    margin-bottom: 20px;
+    /* Aquí puedes mover el texto horizontal o verticalmente si quieres */
+    position: relative;
+    left: 0px;  /* mueve horizontalmente */
+    top: 0px;   /* mueve verticalmente */
+    
+  }
     </style>
 </head>
-
 <body>
-    <audio id="song" src="Undertale.mp3" type="audio/mpeg" autoplay></audio>
-    <audio id="collect-sound" src="COLLECT.mp3" type="audio/mpeg"></audio>
-    <div class="bubbles-container">
-        <div class="bubbles">
-            <span style="--i:11;"></span>
-            <span style="--i:12;"></span>
-            <span style="--i:24;"></span>
-            <span style="--i:10;"></span>
-            <span style="--i:23;"></span>
-            <span style="--i:18;"></span>
-            <span style="--i:16;"></span>
-            <span style="--i:19;"></span>
-            <span style="--i:20;"></span>
-            <span style="--i:22;"></span>
-            <span style="--i:25;"></span>
-            <span style="--i:18;"></span>
-            <span style="--i:21;"></span>
-            <span style="--i:15;"></span>
-            <span style="--i:13;"></span>
-            <span style="--i:25;"></span>
-            <span style="--i:26;"></span>
-            <span style="--i:17;"></span>
-            <span style="--i:13;"></span>
-            <span style="--i:28;"></span>
-        </div>
-    </div>
-    <h1 id="greeting">Hola</h1>
-    <div class="textbox" id="question">¿Eres Greysi?</div>
-    <div class="buttons" id="initial-buttons">
-        <button id="yes">Sí</button>
-        <button id="no">No</button>
-    </div>
-
-    <div class="loading-container" id="loading-container">
-        <img src="https://media.tenor.com/ovWTVvG3VBwAAAAM/mr-fresh-mr-fresh-multiverse.gif" alt="Loading GIF" class="fade-in-image">
-        <div style="height: 20px;"></div>
-        <p id="loading-text">Analizando...</p>
-        <div class="box">
-            <div id="loading-bar-fill" class="loading-box"></div>
-        </div>
-        <br>
-        <div class="heart" id="heart"></div>
-    </div>
-
-    <div class="buttons" id="auth-buttons" style="display: none;">
-        <button id="auth-yes">Sí</button>
-        <button id="auth-no">No</button>
-    </div>
-
-    <div id="cuenta"></div>
-    <br>
-    <div id="quiz-container" style="width:100%;display:flex;flex-direction:column;gap:8px;min-height:635px;display:none;">
-        <iframe src="https://quizizz.com/embed/presentation/66ab2ff43b9a0501634cb6a0" title="Lección sin título - Quizizz" style="flex:1;" frameBorder="0" allowfullscreen></iframe>
-        <a href="https://quizizz.com/admin?source=embedFrame" target="_blank">Explore more at Quizizz.</a>
-    </div>
-
-    
+    <div class="grass"></div>
+    <div class="grass1"></div>
+    <svg
+      id="heart"
+      width="150" 
+      height="150"
+      viewBox="0 0 32 29.6"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <!-- Ruta del corazón con color rojo y 50% de transparencia -->
+      <path
+        d="M23.6,0c-3.4,0-6.4,2.1-7.6,5.1C14.8,2.1,11.8,0,8.4,0C3.8,0,0,3.8,0,8.4c0,9.4,16,21.2,16,21.2
+           s16-11.8,16-21.2C32,3.8,28.2,0,23.6,0z"
+        fill="red" 
+        fill-opacity="0.5" 
+      />
+    </svg>
+    <!-- Se incluirá el cuadrado dinámicamente mediante JavaScript cuando se haga clic en el corazón -->
 
     <script>
-        const greeting = document.getElementById('greeting');
-        const question = document.getElementById('question');
-        const initialButtons = document.getElementById('initial-buttons');
-        const vutonSi = document.getElementById('yes');
-        const vutonNo = document.getElementById('no');
-        const loadingContainer = document.getElementById('loading-container');
-        const loadingText = document.getElementById('loading-text');
-        const loadingBarFill = document.getElementById('loading-bar-fill');
-        const heart = document.getElementById('heart');
-        const collectSound = document.getElementById('collect-sound');
-        const authButtons = document.getElementById('auth-buttons');
-        const authYes = document.getElementById('auth-yes');
-        const authNo = document.getElementById('auth-no');
-        const quizContainer = document.getElementById('quiz-container');
+       // Selecciona el elemento del corazón por su id
+  const heart = document.getElementById("heart");
 
-        const zomosNobios = () => {
-            initialButtons.style.animation = 'fadeOut 2s forwards';
-            question.style.animation = 'fadeOut 2s forwards';
-            setTimeout(() => {
-                initialButtons.style.display = 'none';
-                question.style.display = 'none';
-                loadingContainer.style.opacity = '1';
-                setTimeout(() => {
-                    loadingText.style.opacity = '1';
-                    loadingText.style.animation = 'fadeInContent 2s forwards';
-                    loadingText.innerText = 'Inspeccionando...';
-                    setTimeout(() => {
-                        loadingText.innerText = 'Creyendo tus mentiras...';
-                        loadingBarFill.parentElement.style.opacity = '1';
-                        loadingBarFill.parentElement.style.animation = 'fadeInContent 2s forwards';
-                        heart.style.opacity = '1';
-                        heart.style.animation = 'fadeInContent 2s forwards';
-                        setTimeout(() => {
-                            alert('ERROR, falta autenticar.');
-                            loadingContainer.style.opacity = '0';
-                            question.innerText = '¿Estás de acuerdo con el cuestionario?';
-                            question.style.animation = 'fadeInText 2s forwards';
-                            question.style.display = 'block';
-                            authButtons.style.display = 'block';
-                            authButtons.style.animation = 'fadeInButtons 2s forwards';
-                        }, 2000);
-                    }, 2000);
-                }, 2000);
-            }, 2000);
-        };
+  // Función para manejar el clic en el corazón
+  heart.addEventListener("click", () => {
+    /* Añade la clase para la animación de "apretón" */
+    const audio = new Audio("heartbeat.mp3");
+    heart.classList.add("heart-clicked");
+    audio.currentTime = 0;
+    audio.play();
+    // Remueve la clase después de 100ms para restaurar el tamaño original
+    setTimeout(() => {
+      heart.classList.remove("heart-clicked");
+    }, 100);
 
-        const ebitarKCRompaMyBobo = () => {
-            vutonNo.style.position = 'absolute';
-            vutonNo.style.top = (Math.random() * window.innerHeight) + 'px';
-            vutonNo.style.left = (Math.random() * window.innerWidth) + 'px';
-        };
+    // Llama a la función que crea el contenedor flotante (imagen y círculo)
+    createFloatingContainer();
+  });
 
-        heart.addEventListener('click', () => {
-            collectSound.currentTime = 0;
-            collectSound.play();
-        });
+  
+  // Función para crear y agregar el contenedor flotante a la página
+  function createFloatingContainer() {
+    /* Crea un nuevo elemento div que será el contenedor */
+    const container = document.createElement("div");
+    container.classList.add("floating-container");  // Clase identificable
 
-        vutonSi.addEventListener('click', () => {
-            greeting.style.animation = 'fadeOut 2s forwards';
-            initialButtons.style.animation = 'fadeOut 2s forwards';
-            setTimeout(() => {
-                zomosNobios();
-                const loadingImage = document.querySelector('.fade-in-image');
-                loadingImage.style.opacity = '1';
-                loadingImage.style.animation = 'fadeInImage 3s forwards';
-            }, 2000);
-        });
+    // Posición fija en la pantalla para el contenedor
+    container.style.position = "fixed";      // Fija el contenedor en la pantalla
+    container.style.bottom = "20px";           // Posición inicial desde abajo
+    // Genera una posición horizontal aleatoria (ajustando para el ancho del contenedor)
+    container.style.left = `${Math.random() * (window.innerWidth - 90)}px`;
+    container.style.width = "90px";           // Ancho del contenedor (se ajusta al contenido)
+    container.style.height = "90px";          // Alto del contenedor
+    container.style.userSelect = "none";
+    container.style.cursor = "pointer";
 
-        vutonNo.addEventListener('click', () => {
-            location.href = 'https://www.youtube.com/watch?v=A56CQc4-HDo';
-        });
+    /* Crea el círculo de fondo */
+    const bgCircle = document.createElement("div");
+    bgCircle.classList.add("bg-circle");       // Clase identificable para el círculo
+    bgCircle.style.position = "absolute";      // Posición absoluta dentro del contenedor
+    bgCircle.style.top = "0";                  // Ubicación superior 0
+    bgCircle.style.left = "0";                 // Ubicación izquierda 0
+    bgCircle.style.width = "80px";            // Mismo ancho que el contenedor
+    bgCircle.style.height = "80px";           // Mismo alto que el contenedor
+    bgCircle.style.borderRadius = "50%";       // Hace que el div sea circular
+    bgCircle.style.boxShadow = "0px 0px 25px 5px rgba(251, 178, 31, 0.5)"; // 50% de opacidad
+    // Color del círculo: 50% transparente (puedes ajustar el color a tu gusto)
+    bgCircle.style.backgroundColor = "rgba(251, 178, 31, 0.5)"; // 50% de opacidad
+    // Aplica animación pulsante al círculo (se agranda y reduce continuamente)
 
-        authYes.addEventListener('click', () => {
-            authButtons.style.display = 'none';
-            question.style.display = 'none';
-            quizContainer.style.display = 'flex';
-        });
+    /* Crea la imagen */
+    const floatingImg = document.createElement("img");
+    floatingImg.classList.add("floating-img");  // Clase identificable para la imagen
+    // Selecciona aleatoriamente entre "cuadrada1.png" y "circular1.png"
+    const imageOptions = ["cuadrada1.png", "circular1.png"];
+    const randomImage = imageOptions[Math.floor(Math.random() * imageOptions.length)];
+    floatingImg.src = randomImage;             // Asigna el src correspondiente
 
-        authNo.addEventListener('mouseover', () => {
-            authNo.style.position = 'absolute';
-            authNo.style.top = (Math.random() * window.innerHeight) + 'px';
-            authNo.style.left = (Math.random() * window.innerWidth) + 'px';
-        });
+    // Establece el tamaño de la imagen y la posiciona dentro del contenedor
+    floatingImg.style.position = "absolute";   // Posición absoluta para centrarla
+    floatingImg.style.top = "0px";              // Se deja un margen superior
+    floatingImg.style.left = "0px";             // Se deja un margen izquierdo
+    floatingImg.style.width = "80px";           // Ancho de la imagen
+    floatingImg.style.height = "80px";          // Alto de la imagen
+    floatingImg.style.cursor = "pointer";        // Cursor en forma de puntero
+    floatingImg.style.userSelect = "none";       // Evita la selección de la imagen
 
-        setTimeout(() => {
-            greeting.style.animation = 'fadeOut 2s forwards';
-            setTimeout(() => {
-                greeting.innerText = '¿Eres Greysi?';
-                greeting.style.animation = 'none';
-                greeting.style.opacity = '1';
-                greeting.style.animation = 'fadeIn 2s forwards';
-                question.style.animation = 'fadeInText 2s forwards';
-                initialButtons.style.display = 'block';
-                initialButtons.style.animation = 'fadeInButtons 2s forwards';
-            }, 2000);
-        }, 2000);
+    container.style.animation = "elevateAndFade 10s none";
+    /* Aplica animación de elevación y desvanecimiento normal (8s) */
+    setTimeout(() => {
+      container.remove();
+    }, 10000);
 
-        // Contador
-        function startCountdown(duration, display) {
-            let timer = duration, minutes, seconds;
-            setInterval(function () {
-                minutes = parseInt(timer / 60, 10);
-                seconds = parseInt(timer % 60, 10);
+    function explodeConfetti(element) {
+      const container = document.body; // Usamos el body para que el confeti se vea bien
+  
+      for (let i = 0; i < 8; i++) {
+          let confetti = document.createElement("div");
+          confetti.classList.add("confetti");
+  
+          // Posición inicial basada en la linterna
+          let rect = element.getBoundingClientRect();
+          confetti.style.left = `${rect.left + rect.width / 2}px`;
+          confetti.style.top = `${rect.top + rect.height / 2}px`;
+  
+          // Calcular la dirección en base a los 8 ángulos
+          let angle = (i * 45) * (Math.PI / 180);
+          let x = Math.cos(angle) * 100 + "px";
+          let y = Math.sin(angle) * 100 + "px";
+          let rotation = (i * 45) + "deg";
+  
+          confetti.style.setProperty("--x", x);
+          confetti.style.setProperty("--y", y);
+          confetti.style.setProperty("--rotation", rotation);
+          confetti.style.backgroundColor = `hsl(${Math.random() * 30 + 20}, 100%, 50%)`;
+  
+          container.appendChild(confetti);
+  
+          setTimeout(() => {
+              confetti.style.animation = "explode 1s ease-out forwards";
+          }, 0);
+  
+          setTimeout(() => {
+              confetti.remove();
+          }, 2000);
+        }}
 
-                minutes = minutes < 10 ? "0" + minutes : minutes;
-                seconds = seconds < 10 ? "0" + seconds : seconds;
+  container.addEventListener("click", () => {
+    bgCircle.classList.remove("pulse");
+    contador++;
+        localStorage.setItem("contadorClicks", contador);
+        document.getElementById("contador").textContent = "Clicks: " + contador;
 
-                display.textContent = minutes + ":" + seconds;
-
-                if (--timer < 0) {
-                    window.location.href = 'https://www.youtube.com/watch?v=5z-lcBJK-FE&ab_channel=SunsetSounds';
-                }
-            }, 1000);
+        if (contador === 1000) {
+          // Aquí va el evento especial al llegar a 1000 clicks
         }
 
-        window.onload = function () {
-            let fiveMinutes = 60 * 5,
-                display = document.querySelector('#cuenta');
-            startCountdown(fiveMinutes, display);
-        };
+    const audioZ = new Audio("firecrack.mp3");
+    audioZ.currentTime = 0;
+    audioZ.volume = 0.3; // Volumen al 30%
+    audioZ.play();
+    explodeConfetti(floatingImg);
+    setTimeout(() => {
+      floatingImg.style.animation = "fastfadeout 1s forwards";
+      bgCircle.style.animation = "fastfadeout 1s forwards";
+  
+      // Esperar 9s antes de eliminar el elemento
+      setTimeout(() => {
+        container.remove();
+      }, 0);
+      
+    }, 1);
+  });
+
+  
+
+    // Agrega la imagen encima del círculo en el contenedor
+    container.appendChild(floatingImg);
+
+    // Agrega el círculo de fondo al contenedor
+    container.appendChild(bgCircle);
+    
+    // Agrega el contenedor al cuerpo del documento
+    document.body.appendChild(container);
+  }
+    </script>
+
+    <!-- pareja-->
+      <!-- Imagen de pareja -->
+  <img src="pareja.png" alt="Pareja" class="couple-image">
+
+    <script>
+        // Crear las imágenes sobre el pasto de forma aleatoria
+        function createGrassImages() {
+            const grassContainer = document.querySelector('.grass');
+            const imageFiles = ['pasto1.png', 'pasto2.png', 'pasto3.png']; // Archivos de imágenes
+            for (let i = 0; i < 50; i++) {
+                let img = document.createElement('img');
+                let randomImage = imageFiles[Math.floor(Math.random() * imageFiles.length)];
+                img.src = randomImage;
+                
+                // Posiciones aleatorias para las imágenes
+                img.style.left = Math.random() * window.innerWidth + 'px'; // Posición aleatoria en X
+                
+                img.style.bottom = Math.random() * 1 + 'px'; // Posición aleatoria en Y (dentro del pasto)
+                
+                grassContainer.appendChild(img);
+            }
+        }
+
+        // Llamar a la función para crear las imágenes sobre el pasto
+        createGrassImages();
+    </script>
+ <!--CONTENEDORRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRR-->
+    <div class="contenedor">
+      <div id="contador">Clicks: 0</div>
+      <button id="reiniciar">Reiniciar</button>
+    </div>
+  
+    <script>
+      // Obtener el contador almacenado o iniciar en 0
+      let contador = localStorage.getItem("contadorClicks") || 0;
+      document.getElementById("contador").textContent = "Clicks: " + contador;
+  
+  
+      // Reiniciar el contador
+      document.getElementById("reiniciar").addEventListener("click", () => {
+        contador = 0;
+        localStorage.setItem("contadorClicks", contador);
+        document.getElementById("contador").textContent = "Clicks: 0";
+      });
+    </script>
+    
+     <!-- luz-->
+  <div class="luz">
+    <div class="borde-degradado"></div>
+    </div>
+
+    <!-- luna-->
+    <div class="luna">
+        <img src="luna.png" alt="Luna">
+      </div>
+
+    <!-- Estrellas -->
+    <script>
+        const numStars = 200; // Número de estrellas a crear
+        const stars = [];
+
+        // Crear estrellas con posiciones aleatorias y velocidades aleatorias
+        function createStars() {
+            for (let i = 0; i < numStars; i++) {
+                let star = document.createElement('div');
+                star.classList.add('star');
+                
+                // Posición aleatoria inicial
+                star.style.top = Math.random() * window.innerHeight + 'px'; // Altura aleatoria
+                star.style.left = Math.random() * window.innerWidth + 'px'; // Posición horizontal aleatoria
+
+                // Asignar un delay aleatorio a la animación de parpadeo
+                  star.style.animationDelay = Math.random() * 1.5 + 's';
+
+                  document.body.appendChild(star);
+
+                // Almacenar cada estrella con su velocidad aleatoria
+                stars.push({
+                    element: star,
+                    speed: Math.random() * 1 // Velocidad aleatoria de desplazamiento
+                });
+            }
+        }
+
+        // Animación de las estrellas (desplazamiento horizontal continuo)
+        function animateStars() {
+            stars.forEach(star => {
+                let currentLeft = parseFloat(star.element.style.left);
+                
+                // Desplazar la estrella a la derecha
+                star.element.style.left = (currentLeft + star.speed) + 'px';
+
+                // Si la estrella se sale de la pantalla por el lado derecho, la reposicionamos al borde izquierdo
+                if (currentLeft > window.innerWidth) {
+                    star.element.style.left = '-2px'; // Posicionar a la izquierda
+                    star.element.style.top = Math.random() * window.innerHeight + 'px'; // Nueva altura aleatoria
+                }
+            });
+
+            // Continuar la animación en el siguiente fotograma
+            requestAnimationFrame(animateStars);
+        }
+
+        createStars(); // Crear las estrellas
+        animateStars(); // Iniciar la animación
+    </script>
+
+    <!-- Luces flotantes con parpadeo y cambio -->
+    <script>
+        function createLights() {
+            const colors = ['light-purple', 'light-yellow', 'light-celeste'];
+            
+            function createAndAnimateLights() {
+                let lights = [];
+                for (let i = 0; i < 5; i++) {
+                    let light = document.createElement('div');
+                    light.classList.add('light', colors[Math.floor(Math.random() * colors.length)]);
+                    light.style.top = Math.random() * 100 + 'vh';
+                    light.style.left = Math.random() * 100 + 'vw';
+                    document.body.appendChild(light);
+                    lights.push(light);
+
+                    // Animación de fadeIn y fadeOut
+                    light.style.animation = 'fadeIn 1s forwards, moveLights 5s infinite, fadeInOut 5s infinite';
+                }
+
+                // Después de 5 segundos, eliminar las luces existentes
+                setTimeout(() => {
+                    lights.forEach(light => {
+                        light.style.animation = 'fadeOut 1s forwards'; // Desvanecimiento
+                        setTimeout(() => {
+                            light.remove(); // Eliminar de la pantalla después de desvanecerse
+                        }, 2000);
+                    });
+                }, 10000); // Después de 5 segundos eliminar las luces
+
+                // Llamar a la función recursivamente
+                setTimeout(createAndAnimateLights, 5000);
+            }
+
+            createAndAnimateLights();
+        }
+
+        createLights();
     </script>
 </body>
-
 </html>
