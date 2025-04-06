@@ -302,6 +302,28 @@
     top: 0px;   /* mueve verticalmente */
     
   }
+
+  .texto {
+    position: center;
+    font-size: 30px;
+    position: absolute;       /* Esto asegura que el texto esté centrado respecto al body */
+      top: 50%;                 /* Mueve el texto a la mitad de la pantalla desde arriba */
+      left: 50%;                /* Mueve el texto a la mitad de la pantalla desde la izquierda */
+    color: #ffffff;
+    opacity: 0;
+    animation: aparecer 1s forwards;
+  }
+
+  /* Animación para hacer aparecer el texto */
+  @keyframes aparecer {
+    0% {
+      opacity: 0;
+    }
+    100% {
+      opacity: 1;
+    }
+  }
+
     </style>
 </head>
 <body>
@@ -328,18 +350,41 @@
        // Selecciona el elemento del corazón por su id
   const heart = document.getElementById("heart");
 
+// Creamos una variable para almacenar el audio y evitar la repetición
+const audioX = new Audio("scrubb.mp3");
+audioX.volume = 0.3; // Volumen al 30%
+
+// Creamos una variable para el segundo audio
+const audio = new Audio("heartbeat.mp3");
+
+let audioXPlaying = false; // Bandera para verificar si la música ya está sonando
+
   // Función para manejar el clic en el corazón
   heart.addEventListener("click", () => {
-    /* Añade la clase para la animación de "apretón" */
-    const audio = new Audio("heartbeat.mp3");
-    heart.classList.add("heart-clicked");
+    // Si no está sonando, reproducimos el primer audio
+    if (!audioXPlaying) {
+      audioX.currentTime = 0; // Reinicia el audio al inicio
+      audioX.play();
+      audioXPlaying = true; // Marcamos que el audio está sonando
+  
+      // Cuando termine el primer audio, reiniciamos la bandera
+      audioX.onended = () => {
+        audioXPlaying = false;
+      };
+    }
+  
+    // Reproducimos el segundo audio solo una vez por clic
     audio.currentTime = 0;
     audio.play();
+  
+    // Añade la clase para la animación de "apretón"
+    heart.classList.add("heart-clicked");
+  
     // Remueve la clase después de 100ms para restaurar el tamaño original
     setTimeout(() => {
       heart.classList.remove("heart-clicked");
     }, 100);
-
+  
     // Llama a la función que crea el contenedor flotante (imagen y círculo)
     createFloatingContainer();
   });
@@ -617,5 +662,36 @@
 
         createLights();
     </script>
+
+    <script>
+      // Función para mostrar un texto con animación y luego eliminarlo
+      function mostrarTexto(texto, delay) {
+        const div = document.createElement("div");
+        div.classList.add("texto");
+        div.textContent = texto;
+        document.body.appendChild(div);
+  
+        setTimeout(() => {
+          // Animación de desaparición
+          setTimeout(() => {
+            // Eliminar el elemento después de la animación
+            div.style.animation = "fastfadeout 1s forwards";
+          }, 5000);
+          setTimeout(() => {
+            // Eliminar el elemento después de la animación
+            div.remove();
+          }, 6000); // Tiempo de duración de la animación
+        }, delay);
+      }
+  
+      // Mostrar el primer texto "Hola"
+      mostrarTexto("Hola mi vida", 0);
+  
+      // Mostrar el segundo texto "¿Cómo estás?" después de 2 segundos
+      setTimeout(() => {
+        mostrarTexto("Presiona en las linternas 1000 veces para ganarte un premio", 0);
+      }, 6000);
+    </script>
+
 </body>
 </html>
